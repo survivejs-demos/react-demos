@@ -3,6 +3,11 @@ export default resolveDemos([
     name: 'Hello World!',
     slug: 'hello',
     description: 'Hello world! in React'
+  },
+  {
+    name: 'Wrapper',
+    slug: 'wrapper',
+    description: 'Wrapper demo in React'
   }
 ]);
 
