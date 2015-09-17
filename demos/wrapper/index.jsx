@@ -73,6 +73,6 @@ AjaxGet.propTypes = {
 
 class Viewer extends React.Component {
   render() {
-    return <div>json: {this.props.json}</div>;
+    return <div>{'json: ' + JSON.stringify(this.props.json)}</div>;
   }
 }
