@@ -1,3 +1,4 @@
+import 'array.prototype.find';
 import React from 'react';
 import ReactiveRouter from 'reactive-router';
 import Controller from 'cerebral-react-immutable-store';
