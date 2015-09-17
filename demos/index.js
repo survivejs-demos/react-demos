@@ -8,9 +8,11 @@ const controller = Controller({
 });
 
 controller.signal('demoRouter', (args, state) => {
-  console.log('set route', args.path);
-
   state.set('url', args.path);
+});
+
+controller.eventEmitter.on('change', function (state) {
+  router.set(state.url);
 });
 
 const router = ReactiveRouter({
