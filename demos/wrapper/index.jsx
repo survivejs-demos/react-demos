@@ -113,7 +113,8 @@ class AjaxGet extends React.Component {
 
 AjaxGet.propTypes = {
   url: React.PropTypes.string.isRequired,
-  childProp: React.PropTypes.string.isRequired
+  childProp: React.PropTypes.string.isRequired,
+  children: React.PropTypes.element.isRequired
 };
 
 class Viewer extends React.Component {
