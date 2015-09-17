@@ -36,6 +36,7 @@ class AjaxGet extends React.Component {
     super(props, context);
 
     this.fetchData = this.fetchData.bind(this);
+    this.updateChildProp = this.updateChildProp.bind(this);
     this.updateChildren = this.updateChildren.bind(this);
 
     // no data initially
@@ -53,12 +54,10 @@ class AjaxGet extends React.Component {
       this.fetchData();
     }
     else if(props.childProp !== nextProps.childProp) {
-      // TODO: in this case it should get rid of the old value of the child prop
-      this.updateChildren(this.state.data, nextProps);
+      this.updateChildProp(this.state.data, nextProps);
     }
     else {
-      // TODO: compare children equality
-      this.updateChildren(this.state.data, nextProps);
+      this.updateChildren(this.state.data);
     }
   }
   fetchData(url) {
@@ -68,14 +67,35 @@ class AjaxGet extends React.Component {
       console.error(err);
     });
   }
-  updateChildren(data, props) {
-    props = props || this.props;
+  updateChildProp(data, nextProps) {
+    const props = this.props;
+    const child = this.state.children;
+    const childProps = child.props;
+
+    // note that doing this will lose possible initial value
+    // it would be possible to retain that with some extra state
+    delete childProps[props.childProp];
+
+    const newChild = React.cloneElement(
+      child,
+      {
+        ...childProps,
+        [nextProps.childProp]: data
+      }
+    );
+
+    this.setState({
+      data: data,
+      children: newChild
+    });
+  }
+  updateChildren(data) {
+    const props = this.props;
     const child = this.state.children;
 
     const newChild = React.cloneElement(
       child,
       {
-        // es7 object spread (stage 1) to copy props
         ...child.props, // retain possible existing props
         [props.childProp]: data
       }
@@ -84,7 +104,7 @@ class AjaxGet extends React.Component {
     this.setState({
       data: data,
       children: newChild
-    })
+    });
   }
   render() {
     return <div>{this.state.children}</div>
