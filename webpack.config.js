@@ -7,11 +7,15 @@ var HtmlwebpackPlugin = require('html-webpack-plugin');
 var webpack = require('webpack');
 var merge = require('webpack-merge');
 
+var APP_TITLE = 'React Demos';
 var TARGET = process.env.npm_lifecycle_event;
 var ROOT_PATH = path.resolve(__dirname);
+var DEMO_PATH = path.resolve(ROOT_PATH, 'demos');
+
+process.env.BABEL_ENV = TARGET;
 
 var common = {
-  entry: path.resolve(ROOT_PATH, 'app/main.jsx'),
+  entry: DEMO_PATH,
   output: {
     path: path.resolve(ROOT_PATH, 'build'),
     filename: 'bundle.js'
@@ -21,13 +25,13 @@ var common = {
       {
         test: /\.css$/,
         loaders: ['style', 'css'],
-        include: path.resolve(ROOT_PATH, 'app')
+        include: DEMO_PATH
       }
     ]
   },
   plugins: [
     new HtmlwebpackPlugin({
-      title: 'Kanban app'
+      title: APP_TITLE
     })
   ]
 };
@@ -39,20 +43,19 @@ if(TARGET === 'start') {
       preLoaders: [
         {
           test: /\.jsx?$/,
-          loader: 'eslint-loader',
-          include: path.resolve(ROOT_PATH, 'app')
+          loaders: ['eslint'],
+          include: DEMO_PATH
         }
       ],
       loaders: [
         {
           test: /\.jsx?$/,
-          loaders: ['react-hot', 'babel'],
-          include: path.resolve(ROOT_PATH, 'app')
+          loaders: ['babel'],
+          include: DEMO_PATH
         }
       ]
     },
     devServer: {
-      colors: true,
       historyApiFallback: true,
       hot: true,
       inline: true,
@@ -64,3 +67,52 @@ if(TARGET === 'start') {
   });
 }
 
+if(TARGET === 'build') {
+  module.exports = merge(common, {
+    entry: {
+      app: path.resolve(ROOT_PATH, 'app'),
+      vendor: Object.keys(pkg.dependencies)
+    },
+    output: {
+      path: path.resolve(ROOT_PATH, 'build'),
+      filename: '[name].js?[chunkhash]'
+    },
+    devtool: 'source-map',
+    module: {
+      loaders: [
+        {
+          test: /\.css$/,
+          loader: ExtractTextPlugin.extract('style', 'css'),
+          include: path.resolve(ROOT_PATH, 'app')
+        },
+        {
+          test: /\.jsx?$/,
+          loaders: ['babel'],
+          include: path.resolve(ROOT_PATH, 'app')
+        }
+      ]
+    },
+    plugins: [
+      new ExtractTextPlugin('styles.css?[chunkhash]'),
+      new Clean(['build']),
+      new webpack.optimize.CommonsChunkPlugin(
+        'vendor',
+        '[name].js?[chunkhash]'
+      ),
+      new webpack.DefinePlugin({
+        'process.env': {
+          // This affects react lib size
+          'NODE_ENV': JSON.stringify('production')
+        }
+      }),
+      new webpack.optimize.UglifyJsPlugin({
+        compress: {
+          warnings: false
+        }
+      }),
+      new HtmlwebpackPlugin({
+        title: APP_TITLE
+      })
+    ]
+  });
+}
