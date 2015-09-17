@@ -8,6 +8,11 @@ export default resolveDemos([
     name: 'Wrapper',
     slug: 'wrapper',
     description: 'Wrapper demo in React'
+  },
+  {
+    name: 'Dynamic',
+    slug: 'dynamic',
+    description: 'This bit is loaded dynamically using Webpack'
   }
 ]);
 
