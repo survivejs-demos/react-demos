@@ -1,12 +1,33 @@
 import React from 'react';
 
 export default class Wrapper extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+
+    this.changeProp = this.changeProp.bind(this);
+
+    this.state = {
+      prop: 'json'
+    };
+  }
   render() {
+    const prop = this.state.prop;
+
     return (
-      <AjaxGet url='data.json' childProp='json'>
-        <Viewer json={{}}/>
-      </AjaxGet>
+      <div>
+        <AjaxGet url='data.json' childProp={prop}>
+          <Viewer json={{}} other={{}} />
+        </AjaxGet>
+        <button onClick={this.changeProp}>Change prop</button>
+      </div>
     );
+  }
+  changeProp() {
+    const prop = this.state.prop;
+
+    this.setState({
+      prop: prop === 'json' ? 'other' : 'json'
+    });
   }
 }
 
@@ -31,9 +52,13 @@ class AjaxGet extends React.Component {
     if(props.url !== nextProps.url) {
       this.fetchData();
     }
+    else if(props.childProp !== nextProps.childProp) {
+      // TODO: in this case it should get rid of the old value of the child prop
+      this.updateChildren(this.state.data, nextProps);
+    }
     else {
       // TODO: compare children equality
-      this.updateChildren(this.state.data);
+      this.updateChildren(this.state.data, nextProps);
     }
   }
   fetchData(url) {
@@ -43,8 +68,8 @@ class AjaxGet extends React.Component {
       console.error(err);
     });
   }
-  updateChildren(data) {
-    const props = this.props;
+  updateChildren(data, props) {
+    props = props || this.props;
     const child = this.state.children;
 
     const newChild = React.cloneElement(
@@ -73,6 +98,11 @@ AjaxGet.propTypes = {
 
 class Viewer extends React.Component {
   render() {
-    return <div>{'json: ' + JSON.stringify(this.props.json)}</div>;
+    return (
+      <div>
+        <div>{'json: ' + JSON.stringify(this.props.json)}</div>
+        <div>{'other: ' + JSON.stringify(this.props.other)}</div>
+      </div>
+    );
   }
 }
