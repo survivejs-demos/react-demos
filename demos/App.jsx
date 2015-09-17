@@ -1,6 +1,7 @@
 import React from 'react';
 import {Decorator as Cerebral} from 'cerebral-react-immutable-store';
 import demos from './demos';
+import i18n from './i18n';
 
 @Cerebral({
   url: ['url']
@@ -21,11 +22,6 @@ export default class App extends React.Component {
   }
   render() {
     const demo = this.state.demo;
-    const i18n = {
-      name: 'Name',
-      description: 'Description',
-      noDemo: 'No matching demo was found!'
-    };
 
     return (
       <div className='app'>
