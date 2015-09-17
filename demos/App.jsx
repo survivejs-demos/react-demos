@@ -17,22 +17,20 @@ export default class App extends React.Component {
     const url = nextProps.url;
     const demo = demos.find((d) => url === '/' + d.slug);
 
-    if(!demo) {
-      console.error('Failed to find demo!');
-    }
-
     this.setState({demo});
   }
   render() {
+    const demo = this.state.demo;
     const i18n = {
       name: 'Name',
-      description: 'Description'
+      description: 'Description',
+      noDemo: 'No matching demo was found!'
     };
 
     return (
       <div className='app'>
         {this.renderDemos(i18n, demos)}
-        {this.renderDemo(i18n, this.state.demo)}
+        {demo ? this.renderDemo(i18n, demo) : this.renderNoDemo(i18n)}
       </div>
     );
   }
@@ -54,5 +52,8 @@ export default class App extends React.Component {
         {/*<div className='code'>{demo.code}</div>*/}
       </div>
     );
+  }
+  renderNoDemo(i18n) {
+    return <div>{i18n.noDemo}</div>;
   }
 }
