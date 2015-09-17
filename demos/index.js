@@ -17,7 +17,7 @@ controller.signal('demoRouter', (args, state) => {
   state.set('url', args.path);
 });
 
-controller.eventEmitter.on('change', function (state) {
+controller.eventEmitter.on('change', (state) => {
   router.set(state.url);
 });
 
