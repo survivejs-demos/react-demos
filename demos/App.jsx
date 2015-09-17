@@ -6,28 +6,33 @@ import demos from './demos';
   url: ['url']
 })
 export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      demo: {}
+    };
+  }
+  componentWillReceiveProps(nextProps) {
+    const url = nextProps.url;
+    const demo = demos.find((d) => url === '/' + d.slug);
+
+    if(!demo) {
+      console.error('Failed to find demo!');
+    }
+
+    this.setState({demo});
+  }
   render() {
     const i18n = {
       name: 'Name',
       description: 'Description'
     };
-    const url = this.props.url;
-
-    // TODO: push to a smarter lifecycle method. this works for now
-    const demo = demos.find((d) => url === '/' + d.slug);
-
-    if(!demo) {
-      if(url !== '/') {
-        console.error('Failed to find demo!');
-      }
-
-      return <div>No demo</div>;
-    }
 
     return (
       <div className='app'>
         {this.renderDemos(i18n, demos)}
-        {this.renderDemo(i18n, demo)}
+        {this.renderDemo(i18n, this.state.demo)}
       </div>
     );
   }
@@ -45,7 +50,7 @@ export default class App extends React.Component {
       <div className='demo'>
         <div className='name'>{i18n.name}: {demo.name}</div>
         <div className='description'>{i18n.description}: {demo.description}</div>
-        <div className='demo'>{React.createElement(demo.demo)}</div>
+        <div className='demo'>{demo.demo && React.createElement(demo.demo)}</div>
       </div>
     );
   }
