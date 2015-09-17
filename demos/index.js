@@ -1,4 +1,9 @@
 import 'array.prototype.find';
+import Promise from 'es6-promise';
+import 'whatwg-fetch';
+
+Promise.polyfill();
+
 import React from 'react';
 import ReactiveRouter from 'reactive-router';
 import Controller from 'cerebral-react-immutable-store';

@@ -38,8 +38,10 @@
   "dependencies": {
     "array.prototype.find": "^1.0.0",
     "cerebral-react-immutable-store": "^0.6.0",
+    "es6-promise": "^3.0.2",
     "immutable-store": "^0.5.5",
     "react": "^0.13.3",
-    "reactive-router": "^0.4.1"
+    "reactive-router": "^0.4.1",
+    "whatwg-fetch": "^0.9.0"
   }
 }

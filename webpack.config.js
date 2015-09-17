@@ -26,6 +26,11 @@ var common = {
         test: /\.css$/,
         loaders: ['style', 'css'],
         include: DEMO_PATH
+      },
+      {
+        test: /\.jsx?$/,
+        loaders: ['babel'],
+        include: DEMO_PATH
       }
     ]
   },
@@ -44,13 +49,6 @@ if(TARGET === 'start') {
         {
           test: /\.jsx?$/,
           loaders: ['eslint'],
-          include: DEMO_PATH
-        }
-      ],
-      loaders: [
-        {
-          test: /\.jsx?$/,
-          loaders: ['babel'],
           include: DEMO_PATH
         }
       ]
@@ -83,12 +81,7 @@ if(TARGET === 'build') {
         {
           test: /\.css$/,
           loader: ExtractTextPlugin.extract('style', 'css'),
-          include: path.resolve(ROOT_PATH, 'app')
-        },
-        {
-          test: /\.jsx?$/,
-          loaders: ['babel'],
-          include: path.resolve(ROOT_PATH, 'app')
+          include: DEMO_PATH
         }
       ]
     },
