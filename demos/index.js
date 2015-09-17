@@ -1,4 +1,12 @@
-// TODO: this should point at each example
+import React from 'react';
+import App from './App.jsx';
 
-console.log('hello');
+main();
 
+function main() {
+  const app = document.createElement('div');
+
+  document.body.appendChild(app);
+
+  React.render(<App />, app);
+}
