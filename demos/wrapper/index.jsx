@@ -127,3 +127,8 @@ class Viewer extends React.Component {
     );
   }
 }
+
+Viewer.propTypes = {
+  json: React.PropTypes.object,
+  other: React.PropTypes.object
+};
