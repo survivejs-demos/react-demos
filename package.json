@@ -1,0 +1,23 @@
+{
+  "name": "react-demos",
+  "version": "0.0.0",
+  "private": true,
+  "description": "React demos related to SurviveJS",
+  "scripts": {
+    "start": "webpack-dev-server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "webpack",
+    "react",
+    "reactjs",
+    "demo"
+  ],
+  "author": "Juho Vepsalainen",
+  "license": "MIT",
+  "devDependencies": {
+    "webpack": "^1.12.2",
+    "webpack-dev-server": "^1.11.0",
+    "webpack-merge": "^0.2.0"
+  }
+}
