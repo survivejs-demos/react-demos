@@ -23,7 +23,9 @@ export default resolveDemos([
 
 function resolveDemos(configuration) {
   const req = require.context('.', true, /index\.jsx$/);
-  const reqRaw = require.context('raw!../loaders/content!.', true, /index\.jsx$/);
+  const reqRaw = require.context(
+    'html!../loaders/prism?language=javascript!../loaders/content!.', true, /index\.jsx$/
+  );
 
   return configuration.map((item) => {
     const path = './' + item.slug + '/index.jsx';
