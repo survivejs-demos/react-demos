@@ -64,7 +64,7 @@ if(TARGET === 'start') {
 if(TARGET === 'build') {
   module.exports = merge(common, {
     entry: {
-      app: path.resolve(ROOT_PATH, 'app'),
+      app: DEMO_PATH,
       vendor: Object.keys(pkg.dependencies)
     },
     output: {
