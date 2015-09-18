@@ -13,6 +13,11 @@ export default resolveDemos([
     name: 'Dynamic',
     slug: 'dynamic',
     description: 'This bit is loaded dynamically using Webpack'
+  },
+  {
+    name: 'Context',
+    slug: 'context',
+    description: 'This demo shows how to set up context'
   }
 ]);
 
