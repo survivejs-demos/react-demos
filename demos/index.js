@@ -4,6 +4,8 @@ import 'whatwg-fetch';
 
 Promise.polyfill();
 
+import 'prismjs-default-theme/prism-default.css';
+
 import React from 'react';
 import ReactiveRouter from 'reactive-router';
 import Controller from 'cerebral-react-immutable-store';

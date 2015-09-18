@@ -45,7 +45,9 @@ export default class App extends React.Component {
         <div className='name'>{i18n.name}: {demo.name}</div>
         <div className='description'>{i18n.description}: {demo.description}</div>
         <div className='demo'>{demo.demo && React.createElement(demo.demo)}</div>
-        <div className='code'>{demo.code}</div>
+        <pre className='code'>
+          <code className='lang-javascript' dangerouslySetInnerHTML={{__html: demo.code}} />
+        </pre>
       </div>
     );
   }

@@ -23,7 +23,10 @@ var common = {
       {
         test: /\.css$/,
         loaders: ['style', 'css'],
-        include: DEMO_PATH
+        include: [
+          DEMO_PATH,
+          path.resolve(ROOT_PATH, 'node_modules/prismjs-default-theme/')
+        ]
       },
       {
         test: /\.jsx?$/,
