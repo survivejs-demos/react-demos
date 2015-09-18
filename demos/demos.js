@@ -23,16 +23,13 @@ export default resolveDemos([
 
 function resolveDemos(configuration) {
   const req = require.context('.', true, /index\.jsx$/);
-
-  // TODO: figure out the correct way to get just code. now it returns
-  // the preprocessed version...
-  //const reqRaw = require.context('raw!.', true, /index\.jsx$/);
+  const reqRaw = require.context('raw!../loaders/content!.', true, /index\.jsx$/);
 
   return configuration.map((item) => {
     const path = './' + item.slug + '/index.jsx';
 
     item.demo = req(path);
-    //item.code = reqRaw(path);
+    item.code = reqRaw(path);
 
     return item;
   });
