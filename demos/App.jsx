@@ -2,6 +2,7 @@ import React from 'react';
 import {Decorator as Cerebral} from 'cerebral-react-immutable-store';
 import demos from './demos';
 import i18n from './i18n';
+import Editor from './Editor.jsx';
 
 @Cerebral({
   url: ['url']
@@ -9,6 +10,8 @@ import i18n from './i18n';
 export default class App extends React.Component {
   constructor(props) {
     super(props);
+
+    this.onChangeCode = this.onChangeCode.bind(this);
 
     this.state = {
       demo: {}
@@ -46,10 +49,22 @@ export default class App extends React.Component {
         <div className='description'>{i18n.description}: {demo.description}</div>
         <div className='demo'>{demo.demo && React.createElement(demo.demo)}</div>
         <pre className='code'>
-          <code className='lang-javascript' dangerouslySetInnerHTML={{__html: demo.code}} />
+          <Editor
+            onChange={this.onChangeCode}
+            className="code-editor"
+            codeText={demo.code}
+            theme={"monokai"}
+          />
         </pre>
       </div>
     );
+  }
+  onChangeCode(code) {
+    const demo = this.state.demo;
+
+    demo.code = code;
+
+    this.setState({demo});
   }
   renderNoDemo(i18n) {
     return <div>{i18n.noDemo}</div>;

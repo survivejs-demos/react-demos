@@ -25,6 +25,8 @@ var common = {
         loaders: ['style', 'css'],
         include: [
           DEMO_PATH,
+          path.resolve(ROOT_PATH, 'node_modules/codemirror/lib/'),
+          path.resolve(ROOT_PATH, 'node_modules/codemirror/theme/'),
           path.resolve(ROOT_PATH, 'node_modules/prismjs-default-theme/')
         ]
       },

@@ -4,8 +4,10 @@ import 'whatwg-fetch';
 
 Promise.polyfill();
 
-import 'prismjs-default-theme/prism-default.css';
+import 'codemirror/lib/codemirror.css';
+import 'codemirror/theme/monokai.css';
 
+import js from 'codemirror/mode/javascript/javascript';
 import React from 'react';
 import ReactiveRouter from 'reactive-router';
 import Controller from 'cerebral-react-immutable-store';
