@@ -1,7 +1,3 @@
-// TODO: generate index.js and bundle each example separately based on index.js
-
-
-
 var path = require('path');
 var HtmlwebpackPlugin = require('html-webpack-plugin');
 var webpack = require('webpack');
