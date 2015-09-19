@@ -1,5 +1,7 @@
 var path = require('path');
 var HtmlwebpackPlugin = require('html-webpack-plugin');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var Clean = require('clean-webpack-plugin');
 var webpack = require('webpack');
 var merge = require('webpack-merge');
 
@@ -20,16 +22,6 @@ var common = {
   },
   module: {
     loaders: [
-      {
-        test: /\.css$/,
-        loaders: ['style', 'css'],
-        include: [
-          DEMO_PATH,
-          path.resolve(ROOT_PATH, 'node_modules/codemirror/lib/'),
-          path.resolve(ROOT_PATH, 'node_modules/codemirror/theme/'),
-          path.resolve(ROOT_PATH, 'node_modules/prismjs-default-theme/')
-        ]
-      },
       {
         test: /\.jsx?$/,
         loaders: ['babel'],
@@ -54,6 +46,18 @@ if(TARGET === 'start') {
           loaders: ['eslint'],
           include: DEMO_PATH
         }
+      ],
+      loaders: [
+        {
+          test: /\.css$/,
+          loaders: ['style', 'css'],
+          include: [
+            DEMO_PATH,
+            path.resolve(ROOT_PATH, 'node_modules/codemirror/lib/'),
+            path.resolve(ROOT_PATH, 'node_modules/codemirror/theme/'),
+            path.resolve(ROOT_PATH, 'node_modules/prismjs-default-theme/')
+          ]
+        },
       ]
     },
     devServer: {
@@ -84,7 +88,12 @@ if(TARGET === 'build') {
         {
           test: /\.css$/,
           loader: ExtractTextPlugin.extract('style', 'css'),
-          include: DEMO_PATH
+          include: [
+            DEMO_PATH,
+            path.resolve(ROOT_PATH, 'node_modules/codemirror/lib/'),
+            path.resolve(ROOT_PATH, 'node_modules/codemirror/theme/'),
+            path.resolve(ROOT_PATH, 'node_modules/prismjs-default-theme/')
+          ]
         }
       ]
     },
