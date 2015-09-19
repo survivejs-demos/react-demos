@@ -72,7 +72,7 @@ if(TARGET === 'start') {
   });
 }
 
-if(TARGET === 'build') {
+if(TARGET === 'build' || TARGET === 'deploy' || !TARGET) {
   module.exports = merge(common, {
     entry: {
       app: DEMO_PATH,
