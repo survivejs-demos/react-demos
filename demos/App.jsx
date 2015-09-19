@@ -14,7 +14,7 @@ export default class App extends React.Component {
     this.onChangeCode = this.onChangeCode.bind(this);
 
     this.state = {
-      demo: {}
+      demo: null
     };
   }
   componentWillReceiveProps(nextProps) {
