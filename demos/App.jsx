@@ -36,7 +36,7 @@ export default class App extends React.Component {
   }
   renderDemos(i18n, demos) {
     return (
-      <ul className='demos'>
+      <ul className='demos-sidebar'>
         {demos.map((demo) => <li key={`demo-${demo.slug}`}>
           <a href={demo.slug}>{demo.name}</a>
         </li>)}
@@ -45,14 +45,16 @@ export default class App extends React.Component {
   }
   renderDemo(i18n, demo) {
     return (
-      <div className='demo'>
-        <div className='name'>{i18n.name}: {demo.name}</div>
-        <div className='description'>{i18n.description}: {demo.description}</div>
+      <div className='demo-container'>
+        <div className='meta'>
+          <div className='name'>{i18n.name}: {demo.name}</div>
+          <div className='description'>{i18n.description}: {demo.description}</div>
+        </div>
         <div className='demo'>
-        <Preview
-          code={demo.code}
-          scope={{React}}
-        />
+          <Preview
+            code={demo.code}
+            scope={{React}}
+          />
         </div>
         <pre className='code'>
           <Editor
@@ -73,6 +75,6 @@ export default class App extends React.Component {
     this.setState({demo});
   }
   renderNoDemo(i18n) {
-    return <div>{i18n.noDemo}</div>;
+    return <div className='demo-container'>{i18n.noDemo}</div>;
   }
 }

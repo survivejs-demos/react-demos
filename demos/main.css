@@ -1,0 +1,36 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+}
+
+.demos-sidebar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+
+  margin: 0;
+  padding: 1em;
+  max-width: 15%;
+  background: #fafafa;
+  width: 150px;
+
+  list-style: none;
+}
+
+.demo-container {
+  margin-left: 150px;
+  padding: 1em;
+}
+
+.demo-container .meta {
+  padding: 1em;
+}
+
+.demo-container .demo {
+  padding: 1em;
+  border: 1px solid #131313;
+}
