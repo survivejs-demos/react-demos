@@ -26,11 +26,17 @@ controller.eventEmitter.on('change', (state) => {
   router.set(state.url);
 });
 
+let config = {
+  hashbang: false
+};
+
+if(process.env.NODE_ENV === 'production') {
+  config.hashbang = true;
+}
+
 const router = ReactiveRouter({
   '/:demo': controller.signals.demoRouter
-}, {
-  hashbang: false
-});
+}, config);
 
 main();
 
