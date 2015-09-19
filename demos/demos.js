@@ -12,7 +12,7 @@ export default resolveDemos([
   {
     name: 'Context',
     slug: 'context',
-    description: 'This demo shows how to set up context'
+    description: 'This demo shows how to set up a context'
   }
 ]);
 
