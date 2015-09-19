@@ -33,10 +33,11 @@ const Editor = React.createClass({
   componentWillReceiveProps(nextProps) {
     const codeText= nextProps.codeText;
 
-    // TODO: figure out how to retain cursor state in a neat way
-    // e.target.selectionStart, e.target.selectionEnd
     if(this.props.codeText !== codeText) {
+      const oldCursor = this.editor.getCursor();
+
       this.editor.setValue(codeText);
+      this.editor.setCursor(oldCursor);
     }
   },
 
