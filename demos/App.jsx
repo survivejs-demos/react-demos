@@ -3,6 +3,7 @@ import {Decorator as Cerebral} from 'cerebral-react-immutable-store';
 import demos from './demos';
 import i18n from './i18n';
 import Editor from './Editor.jsx';
+import Preview from './Preview.jsx';
 
 @Cerebral({
   url: ['url']
@@ -47,7 +48,12 @@ export default class App extends React.Component {
       <div className='demo'>
         <div className='name'>{i18n.name}: {demo.name}</div>
         <div className='description'>{i18n.description}: {demo.description}</div>
-        <div className='demo'>{demo.demo && React.createElement(demo.demo)}</div>
+        <div className='demo'>
+        <Preview
+          code={demo.code}
+          scope={{React}}
+        />
+        </div>
         <pre className='code'>
           <Editor
             onChange={this.onChangeCode}

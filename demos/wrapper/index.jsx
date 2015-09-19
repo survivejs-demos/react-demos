@@ -1,6 +1,4 @@
-import React from 'react';
-
-export default class Wrapper extends React.Component {
+class Demo extends React.Component {
   constructor(props, context) {
     super(props, context);
 

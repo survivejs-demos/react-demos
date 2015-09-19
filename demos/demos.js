@@ -22,7 +22,6 @@ export default resolveDemos([
 ]);
 
 function resolveDemos(configuration) {
-  const req = require.context('.', true, /index\.jsx$/);
   const reqRaw = require.context(
     'raw!../loaders/content!.', true, /index\.jsx$/
   );
@@ -30,7 +29,6 @@ function resolveDemos(configuration) {
   return configuration.map((item) => {
     const path = './' + item.slug + '/index.jsx';
 
-    item.demo = req(path);
     item.code = reqRaw(path);
 
     return item;
