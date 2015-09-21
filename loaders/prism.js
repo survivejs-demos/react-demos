@@ -13,21 +13,17 @@ module.exports = function(source) {
   }
 
   if(!language) {
-    console.error('prism - missing language!');
-
-    return source;
+    throw new Error('prism - missing language!');
   }
   if(!languages[language]) {
-    console.error('prism - failed to find language definition');
-
-    return source;
+    throw new Error('prism - failed to find language definition');
   }
 
   try {
     return highlight(source, languages[language]);
   }
   catch(e) {
-    console.error('prism - failed to highlight', e);
+    throw new Error('prism - failed to highlight', e);
   };
 
   return source;
