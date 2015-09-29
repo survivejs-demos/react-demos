@@ -44,7 +44,7 @@ var common = {
 
 if(TARGET === 'start') {
   module.exports = merge(common, {
-    devtool: 'eval',
+    devtool: 'eval-source-map',
     module: {
       preLoaders: [
         {
