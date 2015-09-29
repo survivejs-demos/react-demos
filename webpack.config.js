@@ -11,6 +11,12 @@ var APP_TITLE = 'React Demos';
 var TARGET = process.env.npm_lifecycle_event;
 var ROOT_PATH = path.resolve(__dirname);
 var DEMO_PATH = path.resolve(ROOT_PATH, 'demos');
+var STYLE_PATHS = [
+  DEMO_PATH,
+  path.resolve(ROOT_PATH, 'node_modules/codemirror/lib/'),
+  path.resolve(ROOT_PATH, 'node_modules/codemirror/theme/'),
+  path.resolve(ROOT_PATH, 'node_modules/prismjs-default-theme/')
+];
 
 process.env.BABEL_ENV = TARGET;
 
@@ -51,12 +57,7 @@ if(TARGET === 'start') {
         {
           test: /\.css$/,
           loaders: ['style', 'css'],
-          include: [
-            DEMO_PATH,
-            path.resolve(ROOT_PATH, 'node_modules/codemirror/lib/'),
-            path.resolve(ROOT_PATH, 'node_modules/codemirror/theme/'),
-            path.resolve(ROOT_PATH, 'node_modules/prismjs-default-theme/')
-          ]
+          include: STYLE_PATHS
         },
       ]
     },
@@ -88,12 +89,7 @@ if(TARGET === 'build' || TARGET === 'deploy' || !TARGET) {
         {
           test: /\.css$/,
           loader: ExtractTextPlugin.extract('style', 'css'),
-          include: [
-            DEMO_PATH,
-            path.resolve(ROOT_PATH, 'node_modules/codemirror/lib/'),
-            path.resolve(ROOT_PATH, 'node_modules/codemirror/theme/'),
-            path.resolve(ROOT_PATH, 'node_modules/prismjs-default-theme/')
-          ]
+          include: STYLE_PATHS
         }
       ]
     },
