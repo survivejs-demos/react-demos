@@ -35,6 +35,7 @@
     "react-transform-catch-errors": "^1.0.0",
     "react-transform-hmr": "^0.1.6",
     "redbox-react": "^1.1.1",
+    "source-map-support": "^0.3.2",
     "style-loader": "^0.12.4",
     "webpack": "^1.12.2",
     "webpack-dev-server": "^1.12.0",

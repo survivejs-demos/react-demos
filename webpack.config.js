@@ -22,6 +22,7 @@ process.env.BABEL_ENV = TARGET;
 
 var common = {
   entry: DEMO_PATH,
+  devtool: 'source-map',
   output: {
     path: path.resolve(ROOT_PATH, 'build'),
     filename: 'bundle.js'
@@ -44,7 +45,6 @@ var common = {
 
 if(TARGET === 'start') {
   module.exports = merge(common, {
-    devtool: 'eval-source-map',
     module: {
       preLoaders: [
         {
@@ -83,7 +83,6 @@ if(TARGET === 'build' || TARGET === 'deploy' || !TARGET) {
       path: path.resolve(ROOT_PATH, 'build'),
       filename: '[name].[chunkhash].js'
     },
-    devtool: 'source-map',
     module: {
       loaders: [
         {

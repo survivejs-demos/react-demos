@@ -1,3 +1,7 @@
+import 'source-map-support/browser-source-map-support.js';
+
+sourceMapSupport.install();
+
 import 'array.prototype.find';
 import Promise from 'es6-promise';
 import 'whatwg-fetch';
