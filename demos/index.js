@@ -1,5 +1,5 @@
+// XXX: load this only for development
 import 'source-map-support/browser-source-map-support.js';
-
 sourceMapSupport.install();
 
 import 'array.prototype.find';
