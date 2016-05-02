@@ -1,7 +1,7 @@
 /* eslint new-cap:0, no-unused-vars:0, quotes:[2, "double"], react/prop-types:0 */
 // MIT: FormidableLabs/component-playground
 import React from "react";
-import babel from "babel-core/browser";
+import {transform} from "babel-standalone";
 
 const Preview = React.createClass({
     propTypes: {
@@ -34,7 +34,7 @@ const Preview = React.createClass({
     },
 
     _compileCode() {
-      return babel.transform(`
+      return transform(`
         (function (${Object.keys(this.props.scope).join(",")}, mountNode) {
           ${this.props.code};
 

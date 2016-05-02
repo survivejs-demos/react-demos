@@ -1,118 +1,93 @@
-var path = require('path');
-var HtmlwebpackPlugin = require('html-webpack-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var Clean = require('clean-webpack-plugin');
-var webpack = require('webpack');
-var merge = require('webpack-merge');
+const path = require('path');
+const merge = require('webpack-merge');
+const validate = require('webpack-validator');
 
-var pkg = require('./package.json');
+const parts = require('./lib/parts');
+const pkg = require('./package.json');
 
-var APP_TITLE = 'React Demos';
-var TARGET = process.env.npm_lifecycle_event;
-var ROOT_PATH = path.resolve(__dirname);
-var DEMO_PATH = path.resolve(ROOT_PATH, 'demos');
-var STYLE_PATHS = [
-  DEMO_PATH,
-  path.resolve(ROOT_PATH, 'node_modules/codemirror/lib/'),
-  path.resolve(ROOT_PATH, 'node_modules/codemirror/theme/'),
-  path.resolve(ROOT_PATH, 'node_modules/prismjs-default-theme/')
-];
-
-process.env.BABEL_ENV = TARGET;
-
-var common = {
-  entry: DEMO_PATH,
-  devtool: 'source-map',
-  output: {
-    path: path.resolve(ROOT_PATH, 'build'),
-    filename: 'bundle.js'
-  },
-  module: {
-    loaders: [
-      {
-        test: /\.jsx?$/,
-        loaders: ['babel'],
-        include: DEMO_PATH
-      }
-    ]
-  },
-  plugins: [
-    new HtmlwebpackPlugin({
-      title: APP_TITLE
-    })
+const TARGET = process.env.npm_lifecycle_event;
+const ENABLE_POLLING = process.env.ENABLE_POLLING;
+const PATHS = {
+  app: path.join(__dirname, 'demos'),
+  build: path.join(__dirname, 'build'),
+  style: [
+    path.join(__dirname, 'node_modules', 'codemirror', 'lib', 'codemirror.css'),
+    path.join(__dirname, 'node_modules', 'codemirror', 'theme', 'monokai.css'),
+    path.join(__dirname, 'node_modules', 'prismjs-default-theme', 'prism-default.css'),
+    path.join(__dirname, 'demos', 'main.css')
   ]
 };
 
-if(TARGET === 'start') {
-  module.exports = merge(common, {
-    module: {
-      preLoaders: [
-        {
-          test: /\.jsx?$/,
-          loaders: ['eslint'],
-          include: DEMO_PATH
-        }
-      ],
-      loaders: [
-        {
-          test: /\.css$/,
-          loaders: ['style', 'css'],
-          include: STYLE_PATHS
-        },
-      ]
-    },
-    devServer: {
-      historyApiFallback: true,
-      hot: true,
-      inline: true,
-      progress: true
-    },
-    plugins: [
-      new webpack.HotModuleReplacementPlugin()
-    ]
-  });
-}
+process.env.BABEL_ENV = TARGET;
 
-if(TARGET === 'build' || TARGET === 'deploy' || !TARGET) {
-  module.exports = merge(common, {
+const common = merge(
+  {
     entry: {
-      app: DEMO_PATH,
-      vendor: Object.keys(pkg.dependencies)
+      style: PATHS.style,
+      app: PATHS.app
     },
     output: {
-      path: path.resolve(ROOT_PATH, 'build'),
-      filename: '[name].[chunkhash].js'
+      path: PATHS.build,
+      filename: '[name].js'
     },
-    module: {
-      loaders: [
-        {
-          test: /\.css$/,
-          loader: ExtractTextPlugin.extract('style', 'css'),
-          include: STYLE_PATHS
+    resolve: {
+      extensions: ['', '.js', '.jsx']
+    }
+  },
+  parts.indexTemplate({
+    title: 'React demos',
+    appMountId: 'app'
+  }),
+  parts.loadJSX(PATHS.app),
+  parts.lintJSX(PATHS.app)
+);
+
+var config;
+
+switch(TARGET) {
+  case 'build':
+  case 'stats':
+    config = merge(
+      common,
+      {
+        devtool: 'source-map',
+        output: {
+          path: PATHS.build,
+          filename: '[name].[chunkhash].js',
+          chunkFilename: '[chunkhash].js'
         }
-      ]
-    },
-    plugins: [
-      new ExtractTextPlugin('styles.[chunkhash].css'),
-      new Clean(['build']),
-      new webpack.optimize.CommonsChunkPlugin(
-        'vendor',
-        '[name].[chunkhash].js'
+      },
+      parts.clean(PATHS.build),
+      parts.setFreeVariable(
+        'process.env.NODE_ENV',
+        'production'
       ),
-      new webpack.DefinePlugin({
-        'process.env': {
-          // This affects react lib size
-          'NODE_ENV': JSON.stringify('production')
-        }
+      parts.extractBundle({
+        name: 'vendor',
+        entries: Object.keys(pkg.dependencies)
       }),
-      new webpack.optimize.UglifyJsPlugin({
-        compress: {
-          warnings: false
-        }
+      parts.minify(),
+      parts.extractCSS(PATHS.style)
+    );
+    break;
+  default:
+    config = merge(
+      common,
+      {
+        devtool: 'eval-source-map'
+      },
+      parts.setupCSS(PATHS.style),
+      parts.devServer({
+        // Customize host/port here if needed
+        host: process.env.HOST,
+        port: process.env.PORT,
+        poll: ENABLE_POLLING
       }),
-      new HtmlwebpackPlugin({
-        title: APP_TITLE
+      parts.enableReactPerformanceTools(),
+      parts.npmInstall({
+        save: true
       })
-    ]
-  });
+    );
 }
+
+module.exports = validate(config);
